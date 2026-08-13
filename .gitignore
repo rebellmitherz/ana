@@ -1,0 +1,26 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Lokaler Demo-Datenspeicher (Demo-Modus ohne Supabase)
+.data/
+
+# Umgebung — niemals committen
+.env
+.env.local
+.env*.local
+
+# Betriebssystem / Editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Test
+coverage/

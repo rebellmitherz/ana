@@ -1,0 +1,241 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   ALUBALI — Design Tokens
+
+   Richtung: Premium Banking + Luxury Fashion + moderne AI-App.
+   Ausdrücklich NICHT: Pflege-CRM, Behördenportal, Standard-SaaS-Dashboard.
+
+   Zwei harte Regeln, die aus der georgischen Schrift folgen:
+     1. Niemals `text-transform: uppercase`. Mkhedruli ist unikameral —
+        Versalien wirken entweder wirkungslos oder wie Behördenformulare.
+        Hierarchie entsteht über Gewicht, Größe und Farbe.
+     2. Niemals positives letter-spacing auf georgischem Text.
+
+   V1 committet sich bewusst auf ein einziges, warmes Lichtthema. Ein
+   halbgares Dark Mode sieht schlechter aus als keines (siehe LATER.md).
+   ========================================================================== */
+
+@theme {
+  /* --- Flächen ---------------------------------------------------------- */
+  --color-paper: #fbf8f4;
+  --color-paper-raised: #ffffff;
+  --color-paper-sunken: #f4efe8;
+  --color-paper-warm: #f9f1ec;
+
+  /* --- Schrift ---------------------------------------------------------- */
+  --color-ink: #171210;
+  --color-ink-soft: #4a403c;
+  --color-ink-muted: #8a7d76;
+  --color-ink-faint: #b6aaa2;
+
+  /* --- Linien ----------------------------------------------------------- */
+  --color-line: #e9e1d7;
+  --color-line-strong: #d9cec1;
+
+  /* --- Akzent: Alubali (Weinrot / Sauerkirsche) ------------------------- */
+  --color-alubali: #7a1f2b;
+  --color-alubali-deep: #5e1620;
+  --color-alubali-soft: #f6e8e8;
+  --color-alubali-tint: #fcf5f4;
+
+  /* --- Akzent: Gold — nur Haarlinien, Fokus, Hervorhebung. Nie flächig. -- */
+  --color-gold: #c6a667;
+  --color-gold-deep: #a4854a;
+  --color-gold-soft: #f6efe1;
+
+  /* --- Persönlicher Bereich (wärmer) ------------------------------------ */
+  --color-rose: #e8cfc5;
+  --color-rose-soft: #f9efea;
+
+  /* --- Semantik --------------------------------------------------------- */
+  --color-positive: #3f6b52;
+  --color-positive-soft: #eaf2ec;
+  --color-caution: #a97a2e;
+  --color-caution-soft: #f9f0dd;
+  --color-critical: #a23b33;
+  --color-critical-soft: #fbeceb;
+
+  /* --- Typografie ------------------------------------------------------- */
+  --font-display: var(--font-serif-georgian), 'Noto Serif Georgian', Georgia, serif;
+  --font-sans: var(--font-sans-georgian), 'Noto Sans Georgian', system-ui, sans-serif;
+
+  /* --- Radien ----------------------------------------------------------- */
+  --radius-control: 1rem;
+  --radius-card: 1.5rem;
+  --radius-sheet: 2rem;
+
+  /* --- Bewegung: ruhig, ohne Federn, ohne Bounce ------------------------ */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Sehr weiche, niedrig deckende Schatten — nie mehr als zwei Ebenen. */
+    --shadow-soft: 0 1px 2px rgb(23 18 16 / 0.04), 0 8px 24px -12px rgb(23 18 16 / 0.1);
+    --shadow-raised: 0 2px 4px rgb(23 18 16 / 0.05), 0 16px 40px -20px rgb(23 18 16 / 0.16);
+    --shadow-float: 0 8px 16px -8px rgb(122 31 43 / 0.25), 0 24px 48px -24px rgb(23 18 16 / 0.25);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Georgisch hat lange Ober- und Unterlängen — großzügige Zeilenhöhe. */
+    line-height: 1.6;
+    font-feature-settings: 'kern' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Sichtbarer, ruhiger Fokus — Gold statt Systemblau. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-alubali-soft);
+    color: var(--color-alubali-deep);
+  }
+
+  /* Scrollbalken zurückhaltend halten (Desktop-Vorschau). */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+}
+
+@layer utilities {
+  /* iOS-Sicherheitsbereiche — die App läuft als installierte PWA im Vollbild. */
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top), 0.5rem);
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+  }
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Georgische Textblöcke brauchen etwas mehr Luft als lateinische. */
+  .text-georgian {
+    line-height: 1.7;
+    letter-spacing: 0;
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-raised {
+    box-shadow: var(--shadow-raised);
+  }
+  .shadow-float {
+    box-shadow: var(--shadow-float);
+  }
+
+  /* Feine Goldlinie als Trennelement — das Signaturdetail der App. */
+  .rule-gold {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gold) 20%,
+      var(--color-gold) 80%,
+      transparent
+    );
+    height: 1px;
+  }
+
+  .animate-in {
+    animation: alubali-in 0.42s var(--ease-expo) both;
+  }
+  .animate-rise {
+    animation: alubali-rise 0.5s var(--ease-expo) both;
+  }
+  .animate-sheet {
+    animation: alubali-sheet 0.36s var(--ease-soft) both;
+  }
+  .animate-pulse-slow {
+    animation: alubali-pulse 2.4s var(--ease-soft) infinite;
+  }
+}
+
+@keyframes alubali-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes alubali-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes alubali-sheet {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes alubali-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: scale(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
