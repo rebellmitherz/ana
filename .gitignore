@@ -24,3 +24,5 @@ next-env.d.ts
 
 # Test
 coverage/
+
+.vercel

@@ -23,9 +23,18 @@ import {
  * ein vollwertiger Treiber hinter demselben Port wie Supabase.
  *
  * Nicht gedacht für: Nebenläufigkeit über mehrere Prozesse, große Datenmengen.
+ *
+ * Serverless-Hinweis: Auf Vercel (und vergleichbaren Plattformen) ist das
+ * Projektverzeichnis zur Laufzeit schreibgeschützt — nur `/tmp` ist
+ * beschreibbar. Dort landet der Speicher dann automatisch. Wichtig zu wissen:
+ * `/tmp` ist nicht garantiert dauerhaft — bei einem neuen Cold Start kann der
+ * Container wechseln und der Inhalt zurückgesetzt werden. Für einen Demo-Link
+ * ist das akzeptabel, für echte Daten braucht es Supabase.
  */
 
-const DATA_DIR = path.join(process.cwd(), '.data')
+const DATA_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'alubali-data')
+  : path.join(process.cwd(), '.data')
 const DATA_FILE = path.join(DATA_DIR, 'store.json')
 
 type Snapshot = Record<string, Record<string, unknown>[]>

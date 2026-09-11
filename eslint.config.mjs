@@ -12,7 +12,7 @@ import tseslint from 'typescript-eslint'
 const config = [
   ...next,
   {
-    ignores: ['.next/**', 'node_modules/**', 'public/sw.js', '.data/**', 'scripts/**'],
+    ignores: ['.next/**', '.vercel/**', 'node_modules/**', 'public/sw.js', '.data/**', 'scripts/**'],
   },
   {
     files: ['**/*.ts', '**/*.tsx'],

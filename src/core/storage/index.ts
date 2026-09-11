@@ -16,7 +16,10 @@ import { createSupabaseClient } from '@/core/db/supabase-store'
  */
 
 const BUCKET = 'documents'
-const LOCAL_ROOT = path.join(process.cwd(), '.data', 'uploads')
+// Auf Vercel ist nur /tmp beschreibbar (siehe local-store.ts) — gleicher Grund.
+const LOCAL_ROOT = process.env.VERCEL
+  ? path.join('/tmp', 'alubali-data', 'uploads')
+  : path.join(process.cwd(), '.data', 'uploads')
 
 export interface StoredObject {
   path: string
